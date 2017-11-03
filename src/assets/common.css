@@ -7,4 +7,27 @@ html,
 body {
   width: 100%;
   background: #f1f1f1;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.main .el-row,
+.main .el-row .el-col {
+  height: 100%;
+}
+
+
+fieldset {
+  border: 1px solid #feab52;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+fieldset legend {
+  margin-left: 20px;
+  font-size: 14px;
+  padding: 0 10px;
 }

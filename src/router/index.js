@@ -1,11 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Index from '@/components/Index'
+import Index from 'views/home'
 
-Vue.use(Index)
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [{
     path: '/',
     name: '',
