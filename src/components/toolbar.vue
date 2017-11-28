@@ -13,7 +13,7 @@
     </fieldset>
     <fieldset>
       <legend>图片操作</legend>
-      <el-button type="primary" round @click="clear">灰度</el-button>
+      <el-button type="primary" round @click="dealGray">灰度</el-button>
       <el-button type="primary" round @click="addRect">明亮</el-button>
       <el-button type="primary" round @click="rotateRect">反色</el-button>
     </fieldset>
@@ -91,11 +91,12 @@ export default {
   },
   methods: {
     clear() {
+      localStorage.removeItem('layout');
       this.canvas.clear();
-      this.init();
     },
     reset() {
-
+      this.canvas.clear();
+      this.init();
     },
     addRect() {
       let rect = new fabric.Rect({
@@ -172,7 +173,8 @@ export default {
         console.log(this.layout.area[index].ax * this.rate)
         let oImg = img.set({
           left: this.layout.area[index].ax * this.rate,
-          top: this.layout.area[index].ay * this.rate
+          top: this.layout.area[index].ay * this.rate,
+          crossOrigin: 'anonymous'
         }).scale(this.rate);
         this.canvas.add(oImg)
       });
@@ -198,10 +200,27 @@ export default {
     },
 
     /**
+     * 应用滤镜选项
+     * @param  {[type]} filter [description]
+     * @return {[type]}        [description]
+     */
+    applyFilter(filter) {
+      let obj = this.canvas.getActiveObject();
+      obj.filters[0] = filter;
+      obj.applyFilters();
+      this.canvas.renderAll();
+    },
+
+    dealGray() {
+      this.applyFilter(new this.f.Grayscale())
+    },
+
+    /**
      * 初始化
      * @return {[type]} [description]
      */
     init() {
+      this.f = fabric.Image.filters;
       //1.加载遮罩图
       this.loadLayerImage(this.layout.pngImg).then(() => {
         //2.加载容器
@@ -220,6 +239,34 @@ export default {
   padding: 20px;
   box-sizing: border-box;
   border-left: 1px solid #aaa;
+  overflow-y: auto;
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-button:vertical {
+    display: none
+  }
+
+  &::-webkit-scrollbar-corner,
+  &::-webkit-scrollbar-track {
+    background-color: #e2e2e2
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, .3);
+    border-radius: 4px;
+  }
+
+  &::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: rgba(0, 0, 0, .35)
+  }
+
+  &::-webkit-scrollbar-thumb:vertical:active {
+    background-color: rgba(0, 0, 0, .38)
+  }
   .title {
     width: 100%;
     text-align: center;
