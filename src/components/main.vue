@@ -17,15 +17,27 @@ export default {
   methods: {
     init() {
       let canvasObj = document.getElementById('canvas');
-      canvasObj.width = this.$refs.container.style.width;
-      canvasObj.height = this.$refs.container.style.width;
+      let w = this.$refs.container.offsetWidth;
+      canvasObj.width = window.innerHeight;
+      canvasObj.height = window.innerHeight;
       this.canvas = new fabric.Canvas('canvas');
-      console.log(this.canvas)
-      this.canvas.selection = false;
+      this.$emit('loaded', this.canvas)
+    },
+    addRect() {
+      let rect = new fabric.Rect({
+        left: 150,
+        top: 150,
+        fill: 'red',
+        width: 200,
+        height: 200
+      })
+      this.canvas.add(rect);
     }
   },
   mounted() {
-    this.init();
+    this.$nextTick(() => {
+      this.init();
+    });
   }
 }
 

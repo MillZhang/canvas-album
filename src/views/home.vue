@@ -5,10 +5,10 @@
         <slider></slider>
       </el-col>
       <el-col :span="16">
-        <main-box></main-box>
+        <main-box @loaded="handleInitEvent"></main-box>
       </el-col>
       <el-col :span="4">
-        <toolbar></toolbar>
+        <toolbar v-if="showToolbar" :canvas="canvas"></toolbar>
       </el-col>
     </el-row>
   </div>
@@ -20,13 +20,20 @@ import mainBox from 'components/main'
 export default {
   data() {
     return {
-
+      showToolbar: false,
+      canvas: null
     }
   },
   components: {
     slider,
     toolbar,
     mainBox
+  },
+  methods: {
+    handleInitEvent(canvas) {
+      this.canvas = canvas;
+      this.showToolbar = true;
+    }
   }
 }
 
