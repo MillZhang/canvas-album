@@ -4,10 +4,10 @@
       <el-col :span="4">
         <slider></slider>
       </el-col>
-      <el-col :span="16">
+      <el-col :span="14">
         <main-box @loaded="handleInitEvent"></main-box>
       </el-col>
-      <el-col :span="4">
+      <el-col :span="6">
         <toolbar v-if="showToolbar" :canvas="canvas"></toolbar>
       </el-col>
     </el-row>
